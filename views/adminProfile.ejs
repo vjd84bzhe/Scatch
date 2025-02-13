@@ -3,12 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scatch | Login</title>
+    <title>Admin Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div>Hello world</div>
+    <hero>
+        <header>
+            <nav class="flex justify-between h-12 p-2 bg-slate-800 text-white items-center">
+                <label class="text-2xl">
+                    Admin
+                </label>
+                <div>
+                    <ul class="flex gap-3 text-sm">
+                        <li>
+                            <a>Products</a>
+                        </li>
+                        <li>
+                            <a>Settings</a>
+                        </li>
+                        <li>
+                            <a class="text-red-600 font-[500]" href="/owner/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="p-2 text-lg">
+                Welcome, <%= admin.name %>
+            </div>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </hero>
 </body>
 </html>

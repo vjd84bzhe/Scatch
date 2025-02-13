@@ -14,10 +14,19 @@ router.get("/", (req, res)=>{
 });
 
 // render shop if user logged in
-router.get("/shop", isLoggedin, (req, res)=>{
-  res.render("products")
+router.get("/shop", isLoggedin, async (req, res)=>{
+  const user = req.user
+  const products = await productModel.find()
+  res.render("products", {user, products})
 })
 
+// render the cart page 
+router.get("/cart", isLoggedin, async (req, res)=>{
+  const user = await userModel.findOne({email: req.user.email}).populate("cart")
+  res.render("cart", {user})
+})
+
+// user logout handler route
 router.get("/logout", (req, res)=>{
   res.cookie("token", "")
   res.cookie("id", "")

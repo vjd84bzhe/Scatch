@@ -7,7 +7,7 @@ const loggedinAdmin = require("../middlewares/loggedinAdmin")
 
 // render admin login page
 router.get("/admin", (req, res)=>{
-  res.render("adminPanel", {message: req.flash("error")})
+  res.render("adminPanel")
 });
 
 // render create admin page
@@ -33,12 +33,13 @@ router.post("/admin/create", async (req, res)=>{
             email,
             password: hash,
           })
-          const token = jwt.sign({email, id: owner._id}, process.env.JWT_SECRET)
-      res.cookie("token", token)
+          //const token = jwt.sign({email, id: owner._id}, process.env.JWT_SECRET)
+      //res.cookie("token", token)
+          res.redirect("/owner/admin")
         })
         
       })
-        res.redirect("/owner/dashboard")
+        //res.redirect("/owner/dashboard")
     }
   } catch (error) {
     res.send(error.message)
@@ -71,6 +72,12 @@ router.post("/admin/login", async (req, res)=>{
 // render the admin dashboard
 router.get("/dashboard", loggedinAdmin, async (req, res)=>{
   res.render("createProduct")
+})
+
+// new route (under development)
+router.get("/test", loggedinAdmin, async (req, res)=>{
+  const admin = await ownerModel.findOne({email: req.owner.email}).select("-password")
+  res.render("adminProfile", {admin})
 })
 
 // logout the admin
