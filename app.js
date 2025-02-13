@@ -12,6 +12,8 @@ const ownerRouter = require("./routes/ownerRouter");
 const userRouter = require("./routes/userRouter");
 const productRouter = require("./routes/productRouter")
 
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -30,6 +32,6 @@ app.use("/owner", ownerRouter);
 app.use("/user", userRouter);
 app.use("/shop", productRouter);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('Express server initialized');
 });
