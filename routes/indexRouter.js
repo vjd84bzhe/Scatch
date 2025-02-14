@@ -4,6 +4,7 @@ const userModel = require("../models/userModel")
 const productModel = require("../models/productModel")
 const isLoggedin = require("../middlewares/isLoggedin");
 
+// render the user login page
 router.get("/", (req, res)=>{
   const token = req.cookies.token
   if(token){
@@ -24,6 +25,23 @@ router.get("/shop", isLoggedin, async (req, res)=>{
 router.get("/cart", isLoggedin, async (req, res)=>{
   const user = await userModel.findOne({email: req.user.email}).populate("cart")
   res.render("cart", {user})
+})
+
+// remove products from user cart
+router.get("/cart/remove/:productId", isLoggedin, async (req, res)=>{
+  const product = req.params.productId
+  
+  const user = await userModel.findOne({email: req.user.email})
+  
+  const productIndex = user.cart.indexOf(product)
+
+  if (productIndex !== -1) {
+    user.cart.splice(productIndex, 1)
+    await user.save()
+  } else {
+    res.send("Product not found in cart")
+  }
+  res.redirect("/cart")
 })
 
 // user logout handler route
