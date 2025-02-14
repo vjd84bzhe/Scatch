@@ -1,14 +1,14 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Online E-commerce webapp",
   "module": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Surajit",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.9.1",
