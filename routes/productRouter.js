@@ -23,12 +23,24 @@ router.post("/product/create", upload.single("productImage"), async (req, res)=>
   }
 })
 
+// add products to user cart
 router.get("/product/:productId", isLoggedin, async (req, res)=>{
   const user = req.user
   const product = await productModel.findOne({_id: req.params.productId})
-  user.cart.push(product)
-  await user.save()
-  res.redirect("/shop")
+  const productIndex = user.cart.indexOf(product._id)
+
+  if (productIndex !== -1) {
+    res.send("Product already in your cart")
+  } else {
+    user.cart.push(product)
+    await user.save()
+    res.redirect("/shop")
+  }
+
+  //user.cart.push(product)
+  //await user.save()
+  //res.redirect("/shop")
+
 })
 
 module.exports = router;
