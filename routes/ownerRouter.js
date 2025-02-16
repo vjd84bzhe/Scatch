@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const ownerModel = require("../models/ownerModel");
+const userModel = require("../models/userModel");
+const productModel = require("../models/productModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 const loggedinAdmin = require("../middlewares/loggedinAdmin")
@@ -69,15 +71,41 @@ router.post("/admin/login", async (req, res)=>{
   }
 })
 
-// render the admin dashboard
-router.get("/dashboard", loggedinAdmin, async (req, res)=>{
+// route to create new products
+router.get("/product/create", loggedinAdmin, async (req, res)=>{
   res.render("createProduct")
 })
 
-// new route (under development)
-router.get("/test", loggedinAdmin, async (req, res)=>{
+// render the admin dashboard
+router.get("/dashboard", loggedinAdmin, async (req, res)=>{
   const admin = await ownerModel.findOne({email: req.owner.email}).select("-password")
-  res.render("adminProfile", {admin})
+  const allProducts = await productModel.find()
+  const allUsers = await userModel.find()
+  res.render("adminProfile", {admin, allProducts, allUsers})
+})
+
+// manage all the users
+router.get("/manage-users", loggedinAdmin, async (req, res)=>{
+  const allUsers = await userModel.find()
+  res.render("manageUsers", {allUsers})
+})
+
+// manage products of shop page
+router.get("/product/manage", loggedinAdmin, async (req, res)=>{
+  const allProducts = await productModel.find()
+  res.render("manageProducts", {allProducts})
+})
+
+// edit products of shop page
+router.get("/edit/:id", loggedinAdmin, async (req, res)=>{
+  const allProducts = await productModel.find().select("-image -stock")
+  res.send(allProducts)
+})
+
+// delete products of shop page
+router.get("/delete/:id", loggedinAdmin, async (req, res)=>{
+  const allProducts = await productModel.find().select("-image -stock")
+  res.send(allProducts)
 })
 
 // logout the admin

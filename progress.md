@@ -1,4 +1,4 @@
 currently working directory:- 
 
 
-designing Createproduct.ejs page for uploading new products
+writing logic to delete & edit products in /routes/ownerRouter
