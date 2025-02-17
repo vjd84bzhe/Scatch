@@ -98,14 +98,14 @@ router.get("/product/manage", loggedinAdmin, async (req, res)=>{
 
 // edit products of shop page
 router.get("/edit/:id", loggedinAdmin, async (req, res)=>{
-  const allProducts = await productModel.find().select("-image -stock")
-  res.send(allProducts)
+  const product = await productModel.findOne({_id: req.params.id}).select("-image -stock")
+  res.render("editProduct", {product})
 })
 
 // delete products of shop page
 router.get("/delete/:id", loggedinAdmin, async (req, res)=>{
-  const allProducts = await productModel.find().select("-image -stock")
-  res.send(allProducts)
+  const allProducts = await productModel.findOneAndDelete({_id: req.params.id})
+  res.redirect("/owner/product/manage")
 })
 
 // logout the admin
