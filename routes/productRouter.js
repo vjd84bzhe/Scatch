@@ -44,20 +44,15 @@ router.get("/product/:productId", isLoggedin, async (req, res)=>{
 
 })
 
-
-
-
+// edit products of shop page
 router.post("/update/:id", async (req, res)=>{
   try {
     const {name, description, mrp, price, brand} = req.body
-    const product = await productModel.updateOne({_id: req.params.id}, {name, description, mrp, price, brand}, {new: true})
+    const product = await productModel.findOneAndUpdate({_id: req.params.id}, {name, description, mrp, price, brand}, {new: true})
     res.redirect("/owner/dashboard")
   } catch (error) {
     res.send(error.message)
   }
 })
-
-
-
 
 module.exports = router;
