@@ -98,7 +98,7 @@ router.get("/product/manage", loggedinAdmin, async (req, res)=>{
 
 // edit products of shop page
 router.get("/edit/:id", loggedinAdmin, async (req, res)=>{
-  const product = await productModel.findOne({_id: req.params.id}).select("-image -stock")
+  const product = await productModel.findOne({_id: req.params.id}).select("-image")
   res.render("editProduct", {product})
 })
 
